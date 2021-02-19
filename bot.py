@@ -42,7 +42,7 @@ def message(payload):
     
     url = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s" % (text2,key)
     response = requests.get(url)
-    data = json.loads(response.text2)
+    data = json.loads(response.text)
     if BOT_ID !=user_id:
         client.chat_postMessage(channel=channel_id, text=text2)
         if isinstance(math.ceil(data['main']['temp']), int) == True:
