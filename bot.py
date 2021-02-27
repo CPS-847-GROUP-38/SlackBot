@@ -15,7 +15,6 @@ env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 key = os.environ['APIKEY']
-print(key)
 
 # Configure your flask application
 app = Flask(__name__)
