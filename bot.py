@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from flask import Flask
 # Handles events from Slack
 from slackeventsapi import SlackEventAdapter
+from autocorrect import Speller
 import requests
 import json
 import math
@@ -39,11 +40,13 @@ def message(payload):
     user_id = event.get('user')    
     text2 = event.get('text')
     
+    spell = Speller(lang='en')
+    
     if BOT_ID !=user_id:
-        url = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s" % (text2,key)
+        url = "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s" % (spell(text2),key)
         response = requests.get(url)
         data = json.loads(response.text)
-        client.chat_postMessage(channel=channel_id, text=text2)
+        client.chat_postMessage(channel=channel_id, text=spell(text2))
         if data["cod"] != "404":
             print(data)
             if isinstance(math.ceil(data['main']['temp']), int) == True:
